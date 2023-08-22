@@ -20,3 +20,14 @@ i = 0
 while i < len(texto):
     print(texto[i])
     i = i + 1
+    
+print("-----------------")
+
+centinela = 4
+while centinela != 0:
+    print("""Menú de opciones:
+1) Registrar alumno.
+2) Consultar calificaciones.
+3) Consultar horario.
+0) Salir.""")
+    centinela = int(input("Ingresa tu opción: "))
