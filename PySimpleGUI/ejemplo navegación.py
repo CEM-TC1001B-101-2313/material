@@ -48,12 +48,32 @@ def crearVentanaPrincipal():
         ]
     return sg.Window("Menú principal", layout, finalize=True)
 
+def crearVentanaTabla():
+    df = pd.read_csv("Adquisiciones_realizadas.csv")
+    encabezados = df.columns.tolist()
+    contenido = df.head(15).values.tolist()
+    suma = df[" Monto_Total_Sin_IVA "].sum()
+    promedio = df[" Monto_Total_Sin_IVA "].mean()
+    maximo = df[" Monto_Total_Sin_IVA "].max()
+    minimo = df[" Monto_Total_Sin_IVA "].min()
+    layout = [
+        [sg.Text("Ejemplo de tabla de datos")],
+        [sg.Table(headings=encabezados, values=contenido)],
+        [sg.Text(f"La suma total de los montos es: ${suma:,.2f}")],
+        [sg.Text(f"El promedio de los montos es: ${promedio:,.2f}")],
+        [sg.Text(f"El valor máximo de los montos es: ${maximo:,.2f}")],
+        [sg.Text(f"El valor mínimo de los montos es: ${minimo:,.2f}")],
+        [sg.Button("Volver", key="botón volver")],
+        ]
+    return sg.Window("Tabla de datos", layout, finalize=True)
+
 # Crear una variable para cada ventana
 # Sólo la que queremos mostrar de inicio va a estar
 # igualada a su función y las demás les va asignar None
 ventanaLogin = crearVentanaLogin()
 ventanaRegistro = None
 ventanaPrincipal = None
+ventanaTabla = None
 
 while True:
     window, event, values = sg.read_all_windows()
@@ -81,6 +101,13 @@ while True:
         window.close()
         ventanaRegistro = None
         ventanaLogin = crearVentanaLogin()
+    elif window == ventanaPrincipal\
+         and event == "botón datos"\
+         and ventanaTabla is None:
+        window.close()
+        ventanaPrincipal = None
+        ventanaTabla = crearVentanaTabla()
+    
     elif window == ventanaLogin\
          and event == "botón inicio sesión"\
          and ventanaPrincipal is None:
